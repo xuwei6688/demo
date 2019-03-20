@@ -10,7 +10,6 @@ public class LazySingleton {
     private volatile static LazySingleton instance;
 
     private LazySingleton() {
-        new Thread().interrupt();
     }
 
     public static LazySingleton getInstance() {
