@@ -1,5 +1,8 @@
 package singleton;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * 要点：
  * 私有构造方法
@@ -21,5 +24,16 @@ public class LazySingleton {
             }
         }
         return instance;
+    }
+
+    public static void main(String[] args) throws IllegalAccessException, InvocationTargetException, InstantiationException {
+        Constructor<?>[] constructors = LazySingleton.class.getDeclaredConstructors();
+        Constructor<?> c = constructors[0];
+        c.setAccessible(true);
+        Object o = c.newInstance();
+        Object o1 = c.newInstance();
+        System.out.println(o == o1);
+
+
     }
 }
