@@ -1,4 +1,4 @@
-package com.demo.employ;
+package employ;
 
 public class Manager extends Employee {
     private double bonus;

@@ -1,4 +1,4 @@
-package com.demo.employ;
+package employ;
 
 public class Test {
     public static void main(String[] args) {

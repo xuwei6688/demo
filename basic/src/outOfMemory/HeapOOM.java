@@ -1,4 +1,4 @@
-package com.demo.jvm.outOfMemory;
+package outOfMemory;
 
 import java.util.ArrayList;
 import java.util.List;
