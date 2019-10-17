@@ -1,24 +1,20 @@
-package io;
+package com.demo.employ;
 
 import java.time.LocalDate;
 
 public class Employee {
     private String name;
-
     private double salary;
-    /** 雇佣日期 **/
     private LocalDate hireDay;
 
     public Employee() {
     }
 
-    public Employee(String name, double salary, LocalDate hireDay) {
+    public Employee(String name, double salary, int year, int month, int day){
         this.name = name;
         this.salary = salary;
-        this.hireDay = hireDay;
+        this.hireDay = LocalDate.of(year, month, day);
     }
-
-
 
     public String getName() {
         return name;
