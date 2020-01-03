@@ -20,7 +20,7 @@ public class Mutex implements Lock{
 
         // 如果state状态是0，获取锁
         public boolean tryAcquire(int acquires) {
-            assert acquires == 1; // Otherwise unused
+//            assert acquires == 1; // Otherwise unused
             if (compareAndSetState(0, 1)) {
                 setExclusiveOwnerThread(Thread.currentThread());
                 return true;
@@ -30,7 +30,7 @@ public class Mutex implements Lock{
 
         // 通过将state设置成0释放锁
         protected boolean tryRelease(int releases) {
-            assert releases == 1; // Otherwise unused
+//            assert releases == 1; // Otherwise unused
             if (getState() == 0) throw new IllegalMonitorStateException();
             setExclusiveOwnerThread(null);
             setState(0);

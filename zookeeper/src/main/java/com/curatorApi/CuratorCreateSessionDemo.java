@@ -10,6 +10,11 @@ public class CuratorCreateSessionDemo {
         //两种方式创建会话
         CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(CONNECTSTR, 5000, 5000,
                 new ExponentialBackoffRetry(10000, 3));
+        /*
+         * ExponentialBackoffRetry重试策略
+         * sleepMs = (long)(this.baseSleepTimeMs * Math.max(1, this.random.nextInt(1 << retryCount + 1)));
+         */
+
 
         curatorFramework.start();
         System.out.println("success");

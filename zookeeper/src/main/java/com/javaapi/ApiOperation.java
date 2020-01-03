@@ -7,14 +7,21 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-
+/**
+ *  构造方法是异步的，不一定已经建立了连接
+ *  创建节点时父节点必须存在
+ */
 public class ApiOperation implements Watcher {
-    private static String CONNECTSTR = "192.168.0.104:2181,192.168.0.105:2181,192.168.0.106:2181,192.168.0.107:2181";
+    private static String CONNECTSTR = "192.168.101.97:2181,192.168.101.97:2182,192.168.101.97:2183";
     private static CountDownLatch countDownLatch = new CountDownLatch(1);
     private static ZooKeeper zooKeeper;
     private static Stat stat=new Stat();
 
     public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
+        /*
+         *  构造方法是异步的，它完成初始化立即返回，并不会等待连接建立。
+         *  需要通过Watcher
+         */
         zooKeeper = new ZooKeeper(CONNECTSTR, 5000, new ApiOperation());
         countDownLatch.await();
 
@@ -46,6 +53,7 @@ public class ApiOperation implements Watcher {
 
     public void process(WatchedEvent event) {
         try {
+            //如果连接建立
             if (event.getState() == Event.KeeperState.SyncConnected) {
                 if (event.getType() == Event.EventType.None && event.getPath() == null) {
                     countDownLatch.countDown();

@@ -1,5 +1,7 @@
 package juc;
 
+import util.SleepUtil;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,8 +17,10 @@ public class CountDownLatchDemo {
         ExecutorService executorService = Executors.newCachedThreadPool();
         for (int i = 0; i < 5; i++) {
             executorService.execute(() ->{
-                System.out.println(Thread.currentThread().getId());
                 countDownLatch.countDown();
+                Thread.currentThread().interrupt();
+                SleepUtil.sleep(2);
+                System.out.println(Thread.currentThread().getId());
             });
         }
 
