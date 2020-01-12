@@ -107,6 +107,10 @@ public class ChannelDemo {
 
     }
 
+    public static void test4() {
+
+    }
+
     public static void main(String[] args) throws IOException {
 //        test1();
 //        test2();

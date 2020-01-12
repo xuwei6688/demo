@@ -1,0 +1,38 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-BinarySearch",
+            "request": "launch",
+            "mainClass": "main.java.interview.chapter3.BinarySearch"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MinSubArrayLen",
+            "request": "launch",
+            "mainClass": "main.java.interview.chapter3.MinSubArrayLen"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MoveZeros",
+            "request": "launch",
+            "mainClass": "main.java.interview.chapter3.MoveZeros"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-SortColors",
+            "request": "launch",
+            "mainClass": "main.java.interview.chapter3.SortColors"
+        }
+    ]
+}
