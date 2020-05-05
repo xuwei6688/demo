@@ -1,9 +1,7 @@
 package nio;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
@@ -77,8 +75,9 @@ public class ChannelDemo {
             }
         }
     }
+    //零拷贝技术 https://blog.csdn.net/cringkong/article/details/80274148
     //transferFrom transferTo  利用了直接缓冲区
-    //ileChannel 的 transferTo 方法底层基于 sendfile64（Linux 平台下）系统调用实现。
+    //fileChannel 的 transferTo 方法底层基于 sendfile64（Linux 平台下）系统调用实现。
     //sendfile64 会直接在内核空间内进行数据拷贝，免去了内核往用户空间拷贝，用户空间再往内核空间拷贝这两步操作
     public static void test2() throws IOException {
         FileChannel inChannel = FileChannel.open(Paths.get("1.png"), StandardOpenOption.READ);
@@ -107,13 +106,40 @@ public class ChannelDemo {
 
     }
 
-    public static void test4() {
+    //分散读取与聚集写入
+    public static void test4() throws IOException {
+        RandomAccessFile raf = new RandomAccessFile("1.txt", "rw");
 
-    }
+        //1.获取通道
+        FileChannel channel = raf.getChannel();
+
+        //2.创建Buffer
+        ByteBuffer buffer1 = ByteBuffer.allocate(100);
+        ByteBuffer buffer2 = ByteBuffer.allocate(300);
+
+        ByteBuffer[] buffers = {buffer1, buffer2};
+
+        //3.分散读取
+        channel.read(buffers);
+
+        for (ByteBuffer buffer : buffers) {
+            buffer.flip();
+        }
+
+        System.out.println(new String(buffer1.array(),0, buffer1.limit()));
+        System.out.println("-----------");
+        System.out.println(new String(buffer2.array(),0, buffer2.limit()));
+
+        //聚集写入
+        RandomAccessFile raf2 = new RandomAccessFile("2.txt", "rw");
+        FileChannel channel2 = raf2.getChannel();
+        channel2.write(buffers);
+     }
 
     public static void main(String[] args) throws IOException {
 //        test1();
 //        test2();
-        test3();
+//        test3();
+        test4();
     }
 }

@@ -9,20 +9,24 @@ import java.util.concurrent.locks.ReentrantLock;
  **/
 public class Test {
     public static void main(String[] args) {
-//        ThreadPoolExecutor executorService = new ThreadPoolExecutor(0, Integer.MAX_VALUE,
-//                1L, TimeUnit.SECONDS,
-//                new SynchronousQueue<Runnable>());
-//        for (int i = 0; i < 5; i++) {
-//            executorService.execute(()->{
-//                System.out.println("hello");
-//            });
-//
-//        }
-//        executorService.allowCoreThreadTimeOut(true);
-//        executorService.shutdown();
         Lock lock = new ReentrantLock();
-        lock.lock();
-        lock.unlock();
+        new Thread(()->{
+            lock.lock();
+            try {
+                TimeUnit.MICROSECONDS.sleep(1000);
+                lock.unlock();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        new Thread(()->{
+
+            //                lock.tryLock(5, TimeUnit.SECONDS);
+            lock.lock();
+            System.out.println("=======");
+        }).start();
 
     }
+
 }

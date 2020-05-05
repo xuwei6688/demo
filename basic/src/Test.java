@@ -1,5 +1,12 @@
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.*;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @Author xuwei
@@ -7,14 +14,59 @@ import java.lang.reflect.InvocationTargetException;
  * @Version V1.0
  **/
 public class Test {
-    public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        Class<?> c = Class.forName("User");
-        User user = (User)c.newInstance();
-        user.setName("linghu");
-        System.out.println(user.getName());
+    static Lock lock = new ReentrantLock();
+    static Condition conditionA = lock.newCondition();
+    static Condition conditionB = lock.newCondition();
+    static Condition conditionC = lock.newCondition();
+    public static void print() {
 
-        Constructor<?> constructor = c.getConstructor();
-        User user2 = (User)constructor.newInstance();
-        user2.setName("haha");
+        new Thread(()->{
+            while (true) {
+                lock.lock();
+                try{
+                    conditionA.await();
+                    System.out.print("A");
+                    conditionB.signal();
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                } finally{
+                    lock.unlock();
+                }
+            }
+        }).start();
+
+        new Thread(()->{
+            while (true) {
+                lock.lock();
+                try{
+                    conditionB.await();
+                    System.out.print("B");
+                    conditionC.signal();
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                } finally{
+                    lock.unlock();
+                }
+            }
+        }).start();
+
+        new Thread(()->{
+            while (true) {
+                lock.lock();
+                try{
+                    conditionC.await();
+                    System.out.print("C");
+                    conditionA.signal();
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                } finally{
+                    lock.unlock();
+                }
+            }
+        }).start();
+    }
+
+    public static void main(String[] args) {
+
     }
 }

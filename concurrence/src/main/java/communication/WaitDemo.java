@@ -7,7 +7,6 @@ import java.util.concurrent.Executors;
  * 1.只能在同步代码中使用wait否则会在执行时抛IllegalMonitorStateException
  * 2.调用wait()当前线程会进入WAITING状态，并释放锁，直到其它线程执行notify或notify唤醒当前线程
  * 3.wait和notify、notifyAll都属于Object的方法
- * 4.如果调用某个对象的wait或notify方法，那么
  */
 public class WaitDemo {
 
