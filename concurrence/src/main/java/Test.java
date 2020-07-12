@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -8,25 +10,18 @@ import java.util.concurrent.locks.ReentrantLock;
  * @Version V1.0
  **/
 public class Test {
-    public static void main(String[] args) {
-        Lock lock = new ReentrantLock();
-        new Thread(()->{
-            lock.lock();
-            try {
-                TimeUnit.MICROSECONDS.sleep(1000);
-                lock.unlock();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
+    private List<String> list = new ArrayList<>();
 
-        new Thread(()->{
+    public void add(String str) {
+        list.add(str);
+    }
 
-            //                lock.tryLock(5, TimeUnit.SECONDS);
-            lock.lock();
-            System.out.println("=======");
-        }).start();
+    public int size() {
+        return list.size();
+    }
 
+    public static void main(String[] args) throws InterruptedException {
+        System.out.println(134217728 / 1024 / 1024);
     }
 
 }

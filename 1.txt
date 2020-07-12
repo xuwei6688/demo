@@ -1,0 +1,58 @@
+   //利用通道完成文件的复制（非直接缓冲区）
+    public static void test1() {
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
+
+        FileChannel inChannel = null;
+        FileChannel outChannel = null;
+        try{
+            fis = new FileInputStream("1.png");
+            fos = new FileOutputStream("2.png");
+
+            inChannel = fis.getChannel();
+            outChannel = fos.getChannel();
+
+            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+
+            //从通道中读取内容
+            while (inChannel.read(byteBuffer) != -1) {
+                byteBuffer.flip();
+                //将缓冲区的内容写入outChannel中
+                outChannel.write(byteBuffer);
+                //清空缓冲区
+                byteBuffer.clear();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if (outChannel != null) {
+                try {
+                    outChannel.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (inChannel != null) {
+                try {
+                    inChannel.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
