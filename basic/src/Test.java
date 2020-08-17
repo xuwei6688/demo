@@ -1,8 +1,6 @@
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -67,6 +65,12 @@ public class Test {
     }
 
     public static void main(String[] args) {
-
+        User user = new User();
+        user.setName("hello");
+        Map<User, Integer> map = new HashMap<>();
+        map.put(user, 2);
+        System.out.println(map.get(user));
+        user.setName("令狐");
+        System.out.println(map.get(user));
     }
 }
